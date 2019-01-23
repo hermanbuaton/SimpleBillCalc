@@ -185,21 +185,21 @@ function simpleBasicChargeCal(tariffComps, kva, kwh) {
     }
 
     // calculate
-    for (var i = 0; i < valBasicChargeHigh.length; i++) {
+    for (var i = 0; i < tariffComps.length; i++) {
 
-        var charge = valBasicChargeHigh[i].Charge;
-        var block = valBasicChargeHigh[i].Block;
+        var charge = tariffComps[i].Charge;
+        var block = tariffComps[i].Block;
 
         var counter = kVolAmp * block;
 
         var partialUnits = 0;
         if (block == 0) {
-            paritalUnits = remainUnits;
-            remainUnits -= remainUnits;
-        } else if (remainUnits <= counter) {
             partialUnits = remainUnits;
             remainUnits -= remainUnits;
-        } else if (remainUnits > counter) {
+        } else if (remainUnits < counter) {
+            partialUnits = remainUnits;
+            remainUnits -= remainUnits;
+        } else if (remainUnits >= counter) {
             partialUnits = counter;
             remainUnits -= counter;
         }
@@ -306,40 +306,9 @@ function simpleSpecialRebateCal(tariffComps, startDate, endDate, kwh) {
     
 }
 
-function demandChargeCalculator2(hvTariffComps, lvTariffComps, kva) {
-
-    // HV
-    var compHVDemandCharge = simpleDemandChargeCal(hvTariffComps, kva);
-    demandChargeTariffHi = sumcomp(compHVDemandCharge);
-
-    // LV
-    var compLVDemandCharge = simpleDemandChargeCal(lvTariffComps, kva);
-    demandChargeTariffLow = sumcomp(compLVDemandCharge);
-
-    // Output
-    outputChargeData.demCharHiDataSum.Charge = demandChargeTariffHi;
-    outputChargeData.demCharLowDataSum.Charge = demandChargeTariffLow;
-
-}
-function basicChargeCalculator2(hvTariffComps, lvTariffComps, kva, kwh) {
-
-    // HV
-    var compHVBasicCharge = simpleBasicChargeCal(hvTariffComps, kva, kwh);
-    basicChargeTariffHi = sumcomp(compHVBasicCharge);
-
-    // LV
-    var compLVBasicCharge = simpleBasicChargeCal(lvTariffComps, kva, kwh);
-    basicChargeTariffLow = sumcomp(compLVBasicCharge);
-
-    // Output
-    outputChargeData.basCharHiDataSum.Charge = demandChargeTariffHi;
-    outputChargeData.basCharLowDataSum.Charge = demandChargeTariffLow;
-
-}
-
-function simpleFinalOutputCalculator(demandCharge, basicCharge, fuelCharge, fuelRebate, SpecialRebate) {
+function simpleFinalOutputCalculator(demandCharge, basicCharge, fuelCharge, fuelRebate, specialRebate) {
     
-    var final = (basicCharge + demandCharge + fuelCharge - fuelRebate - specialRebate);
+    var final = (basicCharge + demandCharge + fuelCharge + fuelRebate + specialRebate);
     final = round(final, 2);
     
     var isMinCharge = (final < 14.9);

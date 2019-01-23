@@ -159,109 +159,9 @@ function calDaysOfEachMonth() {
 
     daysOfEachMonth = []; //initialize the array
     daysOfEachMonth = process(fromSelectedDate, endDate, consumptionUnits);
-
+    
 }
-function getIntervalsByMonth(startDate, endDate, chargeComponents, totalConsumed) {
-
-    var result = [];
-    totalConsumed = parseInt(totalConsumed);
-
-    // No. of Days
-    var daysDiff = (endDate - startDate) / (1000 * 60 * 60 * 24);
-    var noOfDays = daysDiff + 1;
-
-    // No. of Months
-    var monthDiff = endDate.getMonth() - startDate.getMonth();
-    var noOfMonth = monthDiff + 1;
-    if (noOfMonth < 0) {
-        noOfMonth += 12
-    }
-
-    // Calc
-    var tempDate = new Date(startDate);
-    var tempConsumed = 0;
-    var maxPeriod = {
-        Index: -1,
-        PeriodL: -1
-    };
-    for (i = 0; i < noOfMonth; i++) {
-
-        // Start Date
-        var startDate = tempDate;
-
-        // Check if charge same as next month
-        var diffCharge = true;
-        var thisMonth, nextMonth;
-        i--;
-        do {
-
-            // Next Month
-            thisMonth = new Date(tempDate.getFullYear(), tempDate.getMonth(), 1);
-            nextMonth = new Date(tempDate.getFullYear(), tempDate.getMonth() + 1, 1);
-
-            // Get Charge
-            var thisCharge = getComponentByYearMonth(chargeComponents, thisMonth.getFullYear(), thisMonth.getMonth() + 1);
-            var nextCharge = getComponentByYearMonth(chargeComponents, nextMonth.getFullYear(), nextMonth.getMonth() + 1);
-
-            // for next loop
-            tempDate = nextMonth;
-            i++;
-
-            // compare
-            diffCharge = (i < noOfMonth && thisCharge.Charge == nextCharge.Charge);
-
-        } while (diffCharge == true);
-
-        // End of Month
-        var monthEnd = new Date(nextMonth);
-        monthEnd.setDate(monthEnd.getDate() - 1);
-
-        // Determine End of Period
-        if (monthEnd.getMonth() == endDate.getMonth()) {
-            if (monthEnd.getDate() > endDate.getDate()) {
-                monthEnd.setDate(endDate.getDate());
-            }
-        }
-
-        // Length of Period
-        var periodLength = monthEnd.getDate() - startDate.getDate() + 1;
-
-        // Consumption
-        var consumption = totalConsumed * (periodLength / noOfDays);
-        consumption = Math.round(consumption);
-
-        // Max Period
-        if (periodLength >= maxPeriod.PeriodL) {
-            maxPeriod = {
-                Index: i,
-                PeriodL: periodLength
-            };
-        }
-
-        // Assign
-        var tempResult = {
-            start: startDate,
-            end: monthEnd,
-            consumption: consumption
-        };
-        result.push(tempResult);
-
-        // ROLL
-        tempDate = nextMonth;
-        tempConsumed += consumption;
-
-    }
-
-    // Remainder
-    if (tempConsumed != totalConsumed) {
-        result[maxPeriod.Index].consumption += (totalConsumed - tempConsumed);
-    }
-
-    console.log(result);
-    return result;
-
-}
-function process(startDate, endDate, totalConsumed) {
+function process3(startDate, endDate, totalConsumed) {
 
     var result = [];
 
@@ -304,7 +204,7 @@ function process(startDate, endDate, totalConsumed) {
         // Consumption
         var consumption = totalConsumed * (periodLength / noOfDays);
         consumption = Math.round(consumption);
-
+        
         // Max Period
         if (periodLength >= maxPeriod.PeriodL) {
             maxPeriod = {
@@ -336,6 +236,175 @@ function process(startDate, endDate, totalConsumed) {
 
 }
 
+function process(startDate, endDate, totalConsumed) {
+    
+    var result = [];
+    result = getIntervalsByMonth(startDate, endDate);
+    result = mergeIntervalsByMonth(ValFuelCharge, result);
+    result = calUnitsOfEachInterval(startDate, endDate, result, totalConsumed);
+    
+    return result;
+    
+}
+function process2(tariffComps, startDate, endDate, kwh) {
+    
+    var result = [];
+    result = getIntervalsByMonth(startDate, endDate);
+    result = mergeIntervalsByMonth(tariffComps, result);
+    result = calUnitsOfEachInterval(startDate, endDate, result, kwh);
+    
+    return result;
+    
+}
+function getIntervalsByMonth(startDate, endDate) {
+
+    var intervals = [];
+
+    // No. of Days
+    var daysDiff = (endDate - startDate) / (1000 * 60 * 60 * 24);
+    var noOfDays = daysDiff + 1;
+
+    // No. of Months
+    var noOfMonth = endDate.getMonth() - startDate.getMonth();
+    if (noOfMonth < 0) {
+        noOfMonth += 12
+    }
+
+    // Calc
+    var tempDate = new Date(startDate);
+    for (i = 0; i <= noOfMonth; i++) {
+        
+        // Next Month
+        var nextMonth = new Date(tempDate.getFullYear(), tempDate.getMonth() + 1, 1);
+        
+        // End of Month
+        var monthEnd = new Date(nextMonth);
+        monthEnd.setDate(monthEnd.getDate() - 1);
+        
+        // Determine End of Period
+        if (monthEnd.getMonth() == endDate.getMonth()) {
+            if (monthEnd.getDate() > endDate.getDate()) {
+                monthEnd.setDate(endDate.getDate());
+            }
+        }
+        
+        // Length of Period
+        var periodLength = monthEnd.getDate() - tempDate.getDate() + 1;
+        
+        // Assign
+        var component = {
+            start: tempDate,
+            end: monthEnd,
+            noOfDays: periodLength
+        };
+        intervals.push(component);
+
+        // ROLL
+        tempDate = nextMonth;
+
+    }
+
+    return intervals;
+
+}
+function mergeIntervalsByMonth(chargeComponents, intervals) {
+    
+    var merged = [];
+    var pointer = -1;
+    
+    for (i = 0; i < intervals.length; i++) {
+        
+        var year = intervals[i].start.getFullYear();
+        var month = intervals[i].start.getMonth() + 1;
+        var noOfDays = intervals[i].noOfDays;
+        var comp = getComponentByYearMonth(chargeComponents, year, month);
+        
+        var start = intervals[i].start;
+        if (merged.length > 0) {
+            
+            var sameCharge = (merged[pointer].charge == comp.Charge);
+            if (sameCharge) {
+                merged[pointer].end = intervals[i].end;
+                merged[pointer].noOfDays += intervals[i].noOfDays;
+                continue;
+            }
+            
+        }
+        
+        var result = {
+            start: intervals[i].start,
+            end: intervals[i].end,
+            noOfDays: intervals[i].noOfDays,
+            charge: comp.Charge
+        }
+        merged.push(result);
+        
+        pointer++;
+        
+    }
+    
+    return merged;
+    
+}
+function calUnitsOfEachInterval(startDate, endDate, intervals, kwh) {
+    
+    var result = [];
+
+    // No. of Days
+    var daysDiff = (endDate - startDate) / (oneDay);
+    var noOfDays = daysDiff + 1;
+    
+    // Calculate units
+    var tempConsumed = 0;
+    var maxPeriod = {
+        Index: -1,
+        PeriodL: -1
+    };
+    for (i = 0; i < intervals.length; i++) {
+        
+        // Length of Period
+        var periodLength = (intervals[i].end - intervals[i].start) / (oneDay);
+        periodLength += 1;
+
+        // Consumption
+        var consumption = (kwh) * (periodLength / noOfDays);
+        consumption = Math.round(consumption);
+        
+        // Max Period
+        if (periodLength > maxPeriod.PeriodL) {
+            maxPeriod = {
+                Index: i,
+                PeriodL: periodLength
+            };
+        } else if (periodLength == maxPeriod.PeriodL) {
+            maxPeriod = {
+                Index: intervals.length - 1,
+                PeriodL: 999
+            };
+        }
+
+        // Assign
+        var tempResult = {
+            start: intervals[i].start,
+            end: intervals[i].end,
+            consumption: consumption,
+            charge: intervals[i].charge
+        };
+        result.push(tempResult);
+
+        // ROLL
+        tempConsumed += consumption;
+        
+    }
+
+    // Remainder
+    if (tempConsumed != kwh) {
+        result[maxPeriod.Index].consumption += (kwh - tempConsumed);
+    }
+    
+    return result;
+    
+}
 
 
 /**
@@ -418,7 +487,7 @@ function getOutputTariff(tariff) {
 
     var text3;
     if (tariff < 0) {
-        var a = round((tariff * -1), 2);
+        var a = (tariff * -1);
         var v = parseFloat(a);
         text3 = "-" + CURRENCY + v.toLocaleString(undefined, { minimumFractionDigits: 2 });
     } else {

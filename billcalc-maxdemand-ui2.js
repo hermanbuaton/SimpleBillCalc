@@ -51,10 +51,12 @@ function retrieveTariffData() {
 
 // Get Input
 function captureKVA() {
-    return $(".kVAInput").val();
+    var kva = $(".kVAInput").val();
+    return parseFloat(kva);
 }
 function captureKWH() {
-    return $(".unitsInput").val();
+    var kwh = $(".unitsInput").val();
+    return parseFloat(kwh);
 }
 function captureStartDate() {
     return new Date(getDateValue("#from"));
@@ -161,7 +163,7 @@ function outputComponents(hvComps, hvTotal, lvComps, lvTotal) {
         var text1 = "";
         if (hv != null) {
             text0 = hv.Text2;
-            text1 = hv.Charge;
+            text1 = getOutputTariff(hv.Charge);
         }
         
         var lv = lvComps[i];
@@ -169,7 +171,7 @@ function outputComponents(hvComps, hvTotal, lvComps, lvTotal) {
         var text3 = "";
         if (lv != null) {
             text2 = lv.Text2;
-            text3 = lv.Charge;
+            text3 = getOutputTariff(lv.Charge);
         }
         
         addResultRow(text0, text1, text2, text3);
@@ -177,14 +179,18 @@ function outputComponents(hvComps, hvTotal, lvComps, lvTotal) {
     }
     
     // Subtotal
-    hvTotal = getOutputTariff(hvTotal);
-    lvTotal = getOutputTariff(lvTotal);
-    addSubtotalRow(SUB_TOTAL, hvTotal, SUB_TOTAL, lvTotal);
+    if (count > 1) {
+        hvTotal = getOutputTariff(hvTotal);
+        lvTotal = getOutputTariff(lvTotal);
+        addSubtotalRow(SUB_TOTAL, hvTotal, SUB_TOTAL, lvTotal);
+    }
     
 }
 
 // Calculate
 function doCalculation() {
+    
+    removePreviousResult();
     
     var kva = captureKVA();
     var kwh = captureKWH();
@@ -193,13 +199,13 @@ function doCalculation() {
     
     firstRow(HIGH_VOLTAGE, "", LOW_VOLTAGE, "");
     
-    var hvDemandChargeComp = simpleDemandChargeCal(valDemandChargeHigh, kwh);
-    var lvDemandChargeComp = simpleDemandChargeCal(valDemandChargeLow, kwh);
+    var hvDemandChargeComp = simpleDemandChargeCal(valDemandChargeHigh, kva);
+    var lvDemandChargeComp = simpleDemandChargeCal(valDemandChargeLow, kva);
     var hvBasicChargeComp = simpleBasicChargeCal(valBasicChargeHigh, kva, kwh);
     var lvBasicChargeComp = simpleBasicChargeCal(valBasicChargeLow, kva, kwh);
     var fuelChargeComp = simpleFuelChargeCal(ValFuelCharge, start, end, kwh);
     var fuelRebateComp = simpleFuelRebateCal(valSpecialFuelRebate, start, end, kwh);
-    var specialRebateComp = simpleFuelRebateCal(valSpecialRebate, start, end, kwh);
+    var specialRebateComp = simpleSpecialRebateCal(valSpecialRebate, start, end, kwh);
     
     var hvDemandCharge = sumcomp(hvDemandChargeComp);
     var lvDemandCharge = sumcomp(lvDemandChargeComp);
@@ -324,20 +330,8 @@ $(function () {
         $(".btnCalTariff").click(function () {
 
             $(".hke-billCalc-form").addClass("hke-billCalc-form-small");
-            removePreviousResult();
-
-            capVal();
-            calDaysOfEachMonth();
-            calTotalDays();
-
-            demandChargeCalculator(kVA)
-            basicChargeCalculator(consumptionUnits);
-            fuelCostAdjustmentCalculator();
-            specialFuelRebateCalculator();
-            specialRebateCalculator();
-            finalOutputCalculator();
-
-            buildResultRow();
+            
+            doCalculation();
             $(".resultTable").show();
 
         });
