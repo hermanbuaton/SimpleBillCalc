@@ -1,0 +1,124 @@
+<html>
+
+    <head>
+    
+        <title>Non-Residential Tariff Calculator</title>
+        
+        <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></link>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        
+        <script>
+            
+            var para = { isEditMode: false };
+            window.HKE = { parameters: para };
+            
+        </script>
+        <script type="text/javascript" src="billcalc-lang-EN.js"></script>
+        <script type="text/javascript" src="billcalc-common.js"></script>
+        <script type="text/javascript" src="billcalc-retrieve.js"></script>
+        <script type="text/javascript" src="billcalc-maxdemand.js"></script>
+        <script type="text/javascript" src="billcalc-maxdemand-ui.js"></script>
+        
+        <style>
+        
+            .hke-billCalc-input-group-4 {
+                min-height: 1.5em;
+            }
+            .hke-billCalc-toggle {
+                background-color: transparent;
+            }
+            .hke-billCalc-toggle-selected {
+                background-color: yellow !important;
+            }
+            
+        </style>
+        
+    </head>
+    
+    <body>
+        
+        <div class="hke-content-text">
+            
+            <div class="hke-billCalc-form hke-billCalc-form-small">
+                
+                <label id="labelNetRate" class="net-rate-label hke-billCalc-toggle " style="border-style: solid;">
+                    Net Rate
+                </label>
+                <label id="labellowhiVol" class="net-rate-label hke-billCalc-toggle " style="border-style: solid;">
+                    Low &amp; High Voltage
+                </label>
+                <br>
+                <br>
+                
+                <div class="inputNetRate  hke-billCalc-input-group-4" style="display: none;">
+                    
+                    <label>Select Year</label>
+                    <select class="ySelector">
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+
+                    </select>
+                    
+                </div>
+                <div class="inputNetRate  hke-billCalc-input-group-4" style="display: none;">
+                    
+                    <label>Select Month</label>
+                    <select class="mSelector">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+                
+                <div class="inputMD hke-billCalc-input-group-4">
+                    <label>Consumption (kWh)</label>
+                    <input autocomplete="off" max="99999999" min="1" class="unitsInput" type="text" maxlength="8">
+                </div>
+                <div class="inputMD  hke-billCalc-input-group-4">
+                    <label>Consumption (kVA)</label>
+                    <input type="text" class="kVAInput" min="1" max="99999999" autocomplete="off" maxlength="8">
+                </div>
+                <div class="input-group date inputMD hke-billCalc-input-group-4">
+                    <label for="from">Billing Start Date</label>
+                    <input type="text" id="from" name="from" autocomplete="off" readonly="readonly" class="hasDatepicker">
+                </div>
+                <div class="inputMD  hke-billCalc-input-group-4">
+                    <label for="to">Billing End Date</label>
+                    <input type="text" id="to" name="to" autocomplete="off" readonly="readonly" class="hasDatepicker">
+                </div>
+                <div class="hke-billCalc-input-group-4" style="width: auto; ">
+                    <button type="button" class="btnCalTariff hke-billCalc-button hke-billCalc-button-action">Calculate Tariff</button>
+                </div>
+            
+            </div>
+            
+            <div class="hke-billCalc-result">
+                <table class="netRate display" style="display: none;">
+                    <tbody></tbody>
+                </table>
+            </div>
+            
+            <div class="hke-billCalc-result">
+                <table class="resultTable maxDemand" style="">
+                    <tbody></tbody>
+                </table>
+            </div>
+			
+        </div>
+        
+        <div id="tariff-data-placeholder">
+        </div>
+        
+    </body>
+
+</html>

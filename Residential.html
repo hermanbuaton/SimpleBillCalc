@@ -1,0 +1,84 @@
+<html>
+
+    <head>
+    
+        <title>Residential Tariff Calculator</title>
+        
+        <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></link>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        
+        <script>
+            
+            var para = { isEditMode: false };
+            window.HKE = { parameters: para };
+            
+        </script>
+        <script type="text/javascript" src="billcalc-lang-EN.js"></script>
+        <script type="text/javascript" src="billcalc-common.js"></script>
+        <script type="text/javascript" src="billcalc-retrieve.js"></script>
+        <script type="text/javascript" src="billcalc-residential.js"></script>
+        <script type="text/javascript" src="billcalc-residential-ui.js"></script>
+        
+        <style>
+        
+            .hke-billCalc-input-group-3 {
+                min-height: 1.5em;
+            }
+            .hke-billCalc-toggle {
+                background-color: transparent;
+            }
+            .hke-billCalc-toggle-selected {
+                background-color: yellow !important;
+            }
+            
+        </style>
+        
+    </head>
+    
+    <body>
+        
+        <div class="hke-content-text">
+            
+            <p class="visible-xs">&#8203;</p>
+            
+            <div class="hke-billCalc-form">
+                
+                <label id="ordinary" class="ordinary hke-billCalc-toggle hke-billCalc-toggle-selected" style="border-style: solid;">Ordinary</label>
+                <label id="concessionary" class="checkTarScheme hke-billCalc-toggle" style="border-style: solid;">Concessionary</label>
+                <br>
+                <br>
+                
+                <div class="hke-billCalc-input-group-3">
+                    <label>Consumption (kWh)</label>
+                    <input type="text" class="unitsInput" min="1" max="99999999" autocomplete="off" maxlength="8">
+                </div>
+                <div class="hke-billCalc-input-group-3">
+                    <label for="from">Billing Start Date</label>
+                    <input type="text" id="from" name="from" autocomplete="off" readonly="">
+                </div>
+                <div class="hke-billCalc-input-group-3">
+                    <label for="to">Billing End Date</label>
+                    <input type="text" id="to" name="to" autocomplete="off" readonly="">
+                </div>
+                <div class="hke-billCalc-input-group-3" style="width: auto; ">
+                    <button type="button" class="btnCalTariff hke-billCalc-button hke-billCalc-button-action" disabled="disabled">Calculate Tariff</button>
+                </div>
+                <br>
+            
+            </div>
+            
+            <div class="hke-billCalc-result">
+                <table class="resultTable" style="display: none;">
+                    <tbody></tbody>
+                </table>
+            </div>
+			
+        </div>
+        
+        <div id="tariff-data-placeholder">
+        </div>
+        
+    </body>
+
+</html>
