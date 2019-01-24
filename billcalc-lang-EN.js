@@ -9,6 +9,7 @@ const MIN_CHARGE = "Minimum Charge";
 const TOTAL_AMT = "Total Amount";
 const TOTAL_AMOUNT = "Total Amount";
 
+const NET_Rate = "Net Rate";
 const HIGH_VOLTAGE = "High Voltage";
 const LOW_VOLTAGE = "Low Voltage";
 

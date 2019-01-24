@@ -1,8 +1,4 @@
-// Tariff Data
-var valBasicCharge = [];
-var ValFuelCharge = [];
-var valFuelRebate = [];
-var valSpecialRebate = [];
+
 
 // Retrieve Data
 function retrieveTariffData() {
@@ -16,16 +12,19 @@ function retrieveTariffData() {
 
             if (statusTxt == "success") {
 
-                // Retrieve Data
-                valBasicCharge = retrieveBasicCharge("#basicCharge_nr");
+                // Retrieve
+                valBasicCharge = retrieveBasicCharge("#basicCharge_r");
                 ValFuelCharge = retrieveFuelCharge("#fuelCharge");
                 valFuelRebate = retrieveRebate("#fuelRebate");
                 valSpecialRebate = retrieveRebate("#specialRebate");
+                valSaveDiscount = retrieveSaveDiscount("#saveDiscount");
+                valConcessionary = retrieveConcessionary("#concessionaryDiscount");
 
                 // Set DefaultEndDate upon Fuel Charge Data
                 defaultEndDate = getDefaultEndDate(ValFuelCharge);
 
             }
+
             else if (statusTxt == "error") {
                 console.log("Error: " + xhr.status + ": " + xhr.statusText);
             }
@@ -47,12 +46,19 @@ function captureStartDate() {
 function captureEndDate() {
     return new Date(getDateValue("#to"));
 }
+function isOrdinary() {
+    return $("#ordinary").hasClass("hke-billCalc-toggle-selected");
+}
+function isConcessionary() {
+    return $("#concessionary").hasClass("hke-billCalc-toggle-selected");
+}
 
 // Validate Input
 function validateInput() {
 
     var valid = true;
 
+    valid = (isOrdinary() || isConcessionary());
     valid = (valid && captureUnits() != "" && captureUnits() != null);
     valid = (valid && captureStartDate().getFullYear() >= 2000);
     valid = (valid && captureEndDate().getFullYear() >= 2000);
@@ -130,13 +136,18 @@ function addFinalRow(text0, text1, text2) {
 function outputComponents(comps, total) {
     
     // Title
-    addSubHeaderRow(comps[0].Category);
+    var lastTitle = "";
+    var count = comps.length;
     
     // Rows
-    var count = comps.length;
     for (var i = 0; i < count; i++) {
 
         var comp = comps[i];
+        
+        if (lastTitle != comp.Category) {
+            lastTitle = comp.Category;
+            addSubHeaderRow(comp.Category);
+        }
         
         var text0 = comp.Text1;
         var text1 = comp.Text2;
@@ -163,30 +174,34 @@ function doCalculation() {
     var start = captureStartDate();
     var end = captureEndDate();
     
-    var basicChargeComp = NonResidentialCalculator.basicChargeCal(valBasicCharge, units);
-    var fuelChargeComp = NonResidentialCalculator.fuelChargeCal(ValFuelCharge, start, end, units);
-    var fuelRebateComp = NonResidentialCalculator.fuelRebateCal(valFuelRebate, start, end, units);
-    var specialRebateComp = NonResidentialCalculator.specialRebateCal(valSpecialRebate, start, end, units);
+    var calculator = new ResidentialCalculator(valBasicCharge, ValFuelCharge, valFuelRebate, valSpecialRebate, valSaveDiscount, valConcessionary);
+    
+    var basicChargeComp = calculator.basicChargeCal(units);
+    var fuelChargeComp = calculator.fuelChargeCal(start, end, units);
+    var fuelRebateComp = calculator.fuelRebateCal(start, end, units);
+    var specialRebateComp = calculator.specialRebateCal(start, end, units);
     
     var basicCharge = sumcomp(basicChargeComp);
     var fuelCharge = sumcomp(fuelChargeComp);
     var fuelRebate = sumcomp(fuelRebateComp);
     var specialRebate = sumcomp(specialRebateComp);
     
+    var discountComp = calculator.discountCal(isConcessionary(), start, end, units, basicCharge, fuelCharge, fuelRebate, specialRebate);
+    var discount = sumcomp(discountComp);
+    
     outputComponents(basicChargeComp, basicCharge);
     outputComponents(fuelChargeComp, fuelCharge);
     outputComponents(fuelRebateComp, fuelRebate);
     outputComponents(specialRebateComp, specialRebate);
+    outputComponents(discountComp, discount);
     
-    var finalComp = NonResidentialCalculator.finalOutputCal(basicCharge, fuelCharge, fuelRebate, specialRebate);
+    var finalComp = calculator.finalOutputCal(basicCharge, fuelCharge, fuelRebate, specialRebate, discount);
     addFinalRow(finalComp.Category, "", finalComp.Charge);
     
 }
 
-
-
 $(function () {
-
+    
     // UI
     if (window.HKE.parameters.isEditMode) {
         $(".basicCharge, .fuelCharge, .fuelRebate, .specialRebate, .saveDiscount, .concessionary").show();
@@ -194,23 +209,37 @@ $(function () {
         $(".basicCharge, .fuelCharge, .fuelRebate, .specialRebate, .saveDiscount, .concessionary ").hide();
     }
 
-    $(".resultTable").hide();
     validateInput();
+    $(".resultTable").hide();
     
-    // Retrieve
+    // Retrieve Data
     retrieveTariffData();
 
-    // Set Events
+    // Events
     if (!window.HKE.parameters.isEditMode) {
+
+        // toggles
+        $(".ordinary").click(function () {
+            toggleTriggered(".ordinary");
+            validateInput();
+        });
+        $(".checkTarScheme").click(function () {
+            toggleTriggered(".checkTarScheme");
+            validateInput();
+        });
+
+        // Default toggle
+        toggleTriggered(".ordinary");
 
         // Input (numeric)
         $(".unitsInput").prop("maxlength", "8");
         $(".unitsInput").on("keypress", function (event) {
-            numericHandler(event);
+            numericHandler(event, $(this).val());
         });
-        $(".unitsInput").change(function (event) {
+        $(".unitsInput").on("keyup", function (event) {
             validateInput();
         });
+
 
         // Datepickers
         var from = $("#from").datepicker({
