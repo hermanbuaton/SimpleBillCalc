@@ -199,13 +199,13 @@ function doCalculation() {
     
     firstRow(HIGH_VOLTAGE, "", LOW_VOLTAGE, "");
     
-    var hvDemandChargeComp = simpleDemandChargeCal(valDemandChargeHigh, kva);
-    var lvDemandChargeComp = simpleDemandChargeCal(valDemandChargeLow, kva);
-    var hvBasicChargeComp = simpleBasicChargeCal(valBasicChargeHigh, kva, kwh);
-    var lvBasicChargeComp = simpleBasicChargeCal(valBasicChargeLow, kva, kwh);
-    var fuelChargeComp = simpleFuelChargeCal(ValFuelCharge, start, end, kwh);
-    var fuelRebateComp = simpleFuelRebateCal(valSpecialFuelRebate, start, end, kwh);
-    var specialRebateComp = simpleSpecialRebateCal(valSpecialRebate, start, end, kwh);
+    var hvDemandChargeComp = MaxDemandCalculator.demandChargeCal(valDemandChargeHigh, kva);
+    var lvDemandChargeComp = MaxDemandCalculator.demandChargeCal(valDemandChargeLow, kva);
+    var hvBasicChargeComp = MaxDemandCalculator.basicChargeCal(valBasicChargeHigh, kva, kwh);
+    var lvBasicChargeComp = MaxDemandCalculator.basicChargeCal(valBasicChargeLow, kva, kwh);
+    var fuelChargeComp = MaxDemandCalculator.fuelChargeCal(ValFuelCharge, start, end, kwh);
+    var fuelRebateComp = MaxDemandCalculator.fuelRebateCal(valSpecialFuelRebate, start, end, kwh);
+    var specialRebateComp = MaxDemandCalculator.specialRebateCal(valSpecialRebate, start, end, kwh);
     
     var hvDemandCharge = sumcomp(hvDemandChargeComp);
     var lvDemandCharge = sumcomp(lvDemandChargeComp);
@@ -221,8 +221,8 @@ function doCalculation() {
     outputComponents(fuelRebateComp, fuelRebate, fuelRebateComp, fuelRebate);
     outputComponents(specialRebateComp, specialRebate, specialRebateComp, specialRebate);
     
-    var hvFinalComp = simpleFinalOutputCalculator(hvDemandCharge, hvBasicCharge, fuelCharge, fuelRebate, specialRebate);
-    var lvFinalComp = simpleFinalOutputCalculator(lvDemandCharge, lvBasicCharge, fuelCharge, fuelRebate, specialRebate);
+    var hvFinalComp = MaxDemandCalculator.finalOutputCal(hvDemandCharge, hvBasicCharge, fuelCharge, fuelRebate, specialRebate);
+    var lvFinalComp = MaxDemandCalculator.finalOutputCal(lvDemandCharge, lvBasicCharge, fuelCharge, fuelRebate, specialRebate);
     
     addFinalRow(hvFinalComp.Category, hvFinalComp.Charge, lvFinalComp.Category, lvFinalComp.Charge);
     
