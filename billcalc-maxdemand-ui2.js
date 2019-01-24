@@ -221,7 +221,11 @@ function doCalculation() {
     var hvFinalComp = MaxDemandCalculator.finalOutputCal(hvDemandCharge, hvBasicCharge, fuelCharge, fuelRebate, specialRebate);
     var lvFinalComp = MaxDemandCalculator.finalOutputCal(lvDemandCharge, lvBasicCharge, fuelCharge, fuelRebate, specialRebate);
     
-    addFinalRow(hvFinalComp.Category, hvFinalComp.Charge, lvFinalComp.Category, lvFinalComp.Charge);
+    var hvFinalTitle = hvFinalComp.Category;
+    var hvFinal = getOutputTariff(hvFinalComp.Charge);
+    var lvFinalTitle = lvFinalComp.Category;
+    var lvFinal = getOutputTariff(lvFinalComp.Charge);
+    addFinalRow(hvFinalTitle, hvFinal, lvFinalTitle, lvFinal);
     
 }
 

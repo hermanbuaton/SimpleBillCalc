@@ -484,14 +484,13 @@ class MaxDemandCalculator {
         }
 
         var title = (isMinCharge) ? MIN_CHARGE : TOTAL_AMT;
-        var chargeStr = getOutputTariff(final);
-
         var component = {
             Category: title,
             Text1: "",
             Text2: "",
-            Charge: chargeStr
+            Charge: final
         }
+        
         return component;
 
     }

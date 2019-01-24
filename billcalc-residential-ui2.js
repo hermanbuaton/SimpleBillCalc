@@ -42,6 +42,12 @@ function retrieveTariffData() {
 }
 
 // Get Input
+function isOrdinary() {
+    return $("#ordinary").hasClass("hke-billCalc-toggle-selected");
+}
+function isConcessionary() {
+    return $("#concessionary").hasClass("hke-billCalc-toggle-selected");
+}
 function captureUnits() {
     var kwh = $(".unitsInput").val();
     return parseFloat(kwh);
@@ -51,12 +57,6 @@ function captureStartDate() {
 }
 function captureEndDate() {
     return new Date(getDateValue("#to"));
-}
-function isOrdinary() {
-    return $("#ordinary").hasClass("hke-billCalc-toggle-selected");
-}
-function isConcessionary() {
-    return $("#concessionary").hasClass("hke-billCalc-toggle-selected");
 }
 
 // Validate Input
@@ -204,7 +204,9 @@ function doCalculation() {
     outputComponents(discountComp, discount);
     
     var finalComp = calculator.finalOutputCal(basicCharge, fuelCharge, fuelRebate, specialRebate, discount);
-    addFinalRow(finalComp.Category, "", finalComp.Charge);
+    var finalTitle = finalComp.Category;
+    var final = finalComp.Charge;
+    addFinalRow(finalTitle, final);
     
 }
 

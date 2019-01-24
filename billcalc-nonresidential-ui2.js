@@ -181,7 +181,9 @@ function doCalculation() {
     outputComponents(specialRebateComp, specialRebate);
     
     var finalComp = NonResidentialCalculator.finalOutputCal(basicCharge, fuelCharge, fuelRebate, specialRebate);
-    addFinalRow(finalComp.Category, "", finalComp.Charge);
+    var finalTitle = finalComp.Category;
+    var final = getOutputTariff(finalComp.Charge);
+    addFinalRow(finalTitle, "", final);
     
 }
 
