@@ -1,4 +1,10 @@
-
+// Tariff Data
+var valBasicCharge = [];
+var ValFuelCharge = [];
+var valFuelRebate = [];
+var valSpecialRebate = [];
+var valSaveDiscount = [];
+var valConcessionary = [];
 
 // Retrieve Data
 function retrieveTariffData() {
