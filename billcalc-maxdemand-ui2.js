@@ -1,6 +1,3 @@
-// Output Data
-var outputChargeData = {};
-
 // Tariff Data
 var valDemandChargeHigh = [];
 var valDemandChargeLow = [];

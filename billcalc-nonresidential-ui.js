@@ -22,7 +22,7 @@ $(function () {
             if (statusTxt == "success") {
 
                 // Retrieve Data
-                valBasicCharge = retrieveBasicCharge(".basicCharge");
+                valBasicCharge = retrieveBasicCharge("#basicCharge_nr");
                 ValFuelCharge = retrieveFuelCharge("#fuelCharge");
                 valSpecialFuelRebate = retrieveRebate("#fuelRebate");
                 valSpecialRebate = retrieveRebate("#specialRebate");

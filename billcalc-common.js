@@ -110,6 +110,24 @@ function getDateValue(ctrlName) {
  *  Other Common Functions
  */
 
+function isHalfBlock(startDate, endDate) {
+    var totalDays = (endDate - startDate) / (oneDay);
+    return (totalDays <= 15);
+}
+
+function sumcomp(components) {
+
+    var total = 0.0;
+    for (var i = 0; i < components.length; i++) {
+        var comp = parseFloat(components[i].Charge);
+        total += comp;
+    }
+
+    total = round(total, 2);
+    return total;
+
+}
+
 function getEndOfMonth(year, month) {
 
     // Set Month to 0-based index

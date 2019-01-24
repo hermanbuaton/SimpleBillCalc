@@ -413,6 +413,7 @@ class NonResidentialCalculator {
 
         // Init
         var chargeComps = [];
+        var isHalfBlocks = isHalfBlock();
 
         // calculate
         var remainUnits = units;
@@ -432,8 +433,8 @@ class NonResidentialCalculator {
                 partialUnits = remainUnits;
                 remainUnits -= remainUnits;
             } else if (remainUnits > block) {
-                partialUnits = counter;
-                remainUnits -= counter;
+                partialUnits = block;
+                remainUnits -= block;
             }
 
             var partialCharge = round((partialUnits * charge), 2);
@@ -535,6 +536,29 @@ class NonResidentialCalculator {
         chargeComps.push(component);
 
         return chargeComps;
+
+    }
+    
+    static finalOutputCal(basicCharge, fuelCharge, fuelRebate, specialRebate) {
+        
+        var final = (basicCharge + fuelCharge + fuelRebate + specialRebate);
+        final = round(final, 2);
+
+        var isMinCharge = (final < 35);
+        if (isMinCharge) {
+            final = 35;
+        }
+
+        var title = (isMinCharge) ? MIN_CHARGE : TOTAL_AMT;
+        var chargeStr = getOutputTariff(final);
+
+        var component = {
+            Category: title,
+            Text1: "",
+            Text2: "",
+            Charge: chargeStr
+        }
+        return component;
 
     }
     
