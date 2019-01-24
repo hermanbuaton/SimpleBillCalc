@@ -141,7 +141,7 @@ function addFinalRow(text0, text1, text2) {
     tableBody.append(row);
     
 }
-function outputComponents(comps, total) {
+function outputComponents(comps, total, showSubTotal) {
     
     // Title
     var lastTitle = "";
@@ -166,7 +166,7 @@ function outputComponents(comps, total) {
     }
     
     // Subtotal
-    if (count > 1) {
+    if (showSubTotal) {
         total = getOutputTariff(total);
         addSubtotalRow("", "", total);
     }
@@ -197,15 +197,15 @@ function doCalculation() {
     var discountComp = calculator.discountCal(isConcessionary(), start, end, units, basicCharge, fuelCharge, fuelRebate, specialRebate);
     var discount = sumcomp(discountComp);
     
-    outputComponents(basicChargeComp, basicCharge);
-    outputComponents(fuelChargeComp, fuelCharge);
-    outputComponents(fuelRebateComp, fuelRebate);
-    outputComponents(specialRebateComp, specialRebate);
-    outputComponents(discountComp, discount);
+    outputComponents(basicChargeComp, basicCharge, true);
+    outputComponents(fuelChargeComp, fuelCharge, true);
+    outputComponents(fuelRebateComp, fuelRebate, false);
+    outputComponents(specialRebateComp, specialRebate, false);
+    outputComponents(discountComp, discount, false);
     
-    var finalComp = calculator.finalOutputCal(basicCharge, fuelCharge, fuelRebate, specialRebate, discount);
+    var finalComp = calculator.finalOutputCal(isConcessionary(), basicCharge, fuelCharge, fuelRebate, specialRebate, discount);
     var finalTitle = finalComp.Category;
-    var final = finalComp.Charge;
+    var final = getOutputTariff(finalComp.Charge);
     addFinalRow(finalTitle, final);
     
 }

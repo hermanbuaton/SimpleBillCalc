@@ -238,7 +238,7 @@ class ResidentialCalculator {
                 Category: CONCESSIONARY,
                 Text1: "",
                 Text2: "",
-                Charge: tmpConcessionary.toFixed(2)
+                Charge: tmpConcessionary
             }
             chargeComps.push(component);
 
@@ -250,24 +250,23 @@ class ResidentialCalculator {
 
     }
     
-    finalOutputCal(basicCharge, fuelCharge, fuelRebate, specialRebate, allDiscount) {
+    finalOutputCal(isConc, basicCharge, fuelCharge, fuelRebate, specialRebate, allDiscount) {
         
         var final = (basicCharge + fuelCharge + fuelRebate + specialRebate + allDiscount);
         final = round(final, 2);
 
-        var isMinCharge = (final < 14.9);
+        var isMinCharge = (!isConc && final < 14.9);
         if (isMinCharge) {
             final = 14.9;
         }
 
         var title = (isMinCharge) ? MIN_CHARGE : TOTAL_AMT;
-        var chargeStr = getOutputTariff(final);
 
         var component = {
             Category: title,
             Text1: "",
             Text2: "",
-            Charge: chargeStr
+            Charge: final
         }
         return component;
 
