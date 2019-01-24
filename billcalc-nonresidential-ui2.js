@@ -48,7 +48,24 @@ function captureEndDate() {
     return new Date(getDateValue("#to"));
 }
 
+// Input Validation
+function validateInput() {
+
+    var valid = true;
+
+    valid = (valid && captureUnits() != "" && captureUnits() != null);
+    valid = (valid && captureStartDate().getFullYear() >= 2000);
+    valid = (valid && captureEndDate().getFullYear() >= 2000);
+
+    $(".btnCalTariff").attr("disabled", !valid);
+    return valid;
+
+}
+
 // Show output
+function removePreviousResult() {
+    $(".temp__Row").remove();
+}
 function addSubHeaderRow(title) {
     
     var tableBody = $(".resultTable tbody");
@@ -165,6 +182,7 @@ function doCalculation() {
     addFinalRow(finalComp.Category, "", finalComp.Charge);
     
 }
+
 
 
 $(function () {
