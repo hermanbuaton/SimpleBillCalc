@@ -501,16 +501,20 @@ function getOutputUnits(units) {
     return text3;
 
 }
-function getOutputTariff(tariff) {
+function getOutputTariff(tariff, digits) {
+    
+    if (digits == null) {
+        digits = 2;
+    }
 
     var text3;
     if (tariff < 0) {
-        var a = (tariff * -1);
-        var v = parseFloat(a);
-        text3 = "-" + CURRENCY + v.toLocaleString(undefined, { minimumFractionDigits: 2 });
+        var v = parseFloat(tariff);
+        var a = Math.abs(v);
+        text3 = "-" + CURRENCY + a.toLocaleString(undefined, { minimumFractionDigits: digits });
     } else {
         var v = parseFloat(tariff);
-        text3 = CURRENCY + v.toLocaleString(undefined, { minimumFractionDigits: 2 });
+        text3 = CURRENCY + v.toLocaleString(undefined, { minimumFractionDigits: digits });
     }
 
     return text3;

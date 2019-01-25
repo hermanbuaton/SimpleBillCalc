@@ -86,7 +86,7 @@ function addSubHeaderRow(title) {
     var cell0 = $('<td>').append(title);
     var cell1 = $('<td>').append("");
 
-    cell0.attr("colspan", "3");
+    cell0.attr("colspan", "2");
     row.append(cell0);
     row.append(cell1);
     
@@ -125,14 +125,14 @@ function addSubtotalRow(text0, text1, text2) {
     tableBody.append(row);
     
 }
-function addFinalRow(text0, text1, text2) {
+function addFinalRow(title, value) {
     
     var tableBody = $(".resultTable tbody");
 
     var row = $('<tr>').addClass('temp__Row').addClass('final__Row');
-    var cell0 = $('<td>').append(text0);
-    var cell1 = $('<td>').append(text1);
-    var cell2 = $('<td>').append(text2);
+    var cell0 = $('<td>').append(title);
+    var cell1 = $('<td>').append("");
+    var cell2 = $('<td>').append(value);
     
     row.append(cell0);
     row.append(cell1);

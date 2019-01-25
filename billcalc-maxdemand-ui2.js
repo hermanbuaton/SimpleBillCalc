@@ -85,9 +85,11 @@ function addSubHeaderRow(title) {
 
     var row = $('<tr>').addClass('temp__Row').addClass('subHeader__Row');
     var cell0 = $('<td>').append(title);
+    var cell1 = $('<td>').append("");
 
-    cell0.attr("colspan", "4");
+    cell0.attr("colspan", "3");
     row.append(cell0);
+    row.append(cell1);
     
     tableBody.append(row);
     

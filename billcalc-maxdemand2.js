@@ -93,94 +93,139 @@ function netRateCal() {
     text2 = "";
     netRateAddRow(text0, text1, text2, 5);
 
+    
     for (var i = 0; i < valBasicChargeLow.length - 1; i++) {
+        
+        var lvCharge = valBasicChargeLow[i].Charge;
+        var hvCharge = valBasicChargeHigh[i].Charge;
+        
+        first200LowVol += lvCharge;
+        first200HighVol += hvCharge;
+        
         text0 = BASIC_CHARGE;
-        text1 = valBasicChargeLow[i].Charge;
-        first200LowVol += text1;
-        text2 = valBasicChargeHigh[i].Charge;
-        first200HighVol += text2;
-        netRateAddRow(text0, text1, text2, "");
+        text1 = lvCharge;
+        text2 = hvCharge;
+        netRateAddRow(text0, getOutputTariff(text1, 3), getOutputTariff(text2, 3), "");
+        
     }
-
+    
+    
+    var fuelcharge = ValFuelCharge[sMonth - 1].Charge;
+    
+    first200LowVol += fuelcharge;
+    first200HighVol += fuelcharge;
+    
     text0 = FUEL_CHARGE;
-    text1 = ValFuelCharge[sMonth - 1].Charge;
-    first200LowVol += text1;
-    text2 = ValFuelCharge[sMonth - 1].Charge;
-    first200HighVol += text2;
-    netRateAddRow(text0, text1, text2, "");
+    text1 = fuelcharge;
+    text2 = fuelcharge;
+    netRateAddRow(text0, getOutputTariff(text1, 3), getOutputTariff(text2, 3), "");
 
 
 
     for (var i = 0; i < valSpecialFuelRebate.length; i++) {
+        
+        var rebate = valSpecialFuelRebate[i].Rebate;
+        
+        first200LowVol -= rebate;
+        first200HighVol -= rebate;
+
         text0 = FUEL_REBATE;
-        text1 = valSpecialFuelRebate[i].Rebate;
-        first200LowVol -= text1;
-        text2 = valSpecialFuelRebate[i].Rebate;
-        first200HighVol -= text2;
-        netRateAddRow(text0, text1, text2, "");
+        text1 = (rebate * -1);
+        text2 = (rebate * -1);
+        
+        netRateAddRow(text0, getOutputTariff(text1, 3), getOutputTariff(text2, 3), "");
+        
     }
-
+    
+    
     for (var i = 0; i < valSpecialRebate.length; i++) {
-        text0 = SPECIAL_REBATE;
-        text1 = valSpecialRebate[i].Rebate;
-        first200LowVol -= text1;
-        text2 = valSpecialRebate[i].Rebate;
-        first200HighVol -= text2;
-        netRateAddRow(text0, text1, text2, "");
-    }
 
+        var rebate = valSpecialRebate[i].Rebate
+        
+        first200LowVol -= rebate;
+        first200HighVol -= rebate;
+        
+        text0 = SPECIAL_REBATE;
+        text1 = (rebate * -1);
+        text2 = (rebate * -1);
+        netRateAddRow(text0, getOutputTariff(text1, 3), getOutputTariff(text2, 3), "");
+        
+    }
+    
+    
     first200LowVol = first200LowVol.toFixed(3);
     first200HighVol = first200HighVol.toFixed(3);
-    netRateAddRow(NET_Rate, first200LowVol, first200HighVol, 3);
+    netRateAddRow(NET_Rate, getOutputTariff(first200LowVol, 3), getOutputTariff(first200HighVol, 3), 3);
 
     text0 = "For each additional unit supplied in the month";
     text1 = "";
     text2 = "";
     netRateAddRow(text0, text1, text2, 2);
+    
 
     for (var i = 0; i < valBasicChargeLow.length; i++) {
         if (i = valBasicChargeLow.length - 1) {
+            
+            var lvCharge = valBasicChargeLow[i].Charge;
+            var hvCharge = valBasicChargeHigh[i].Charge;
+
+            otherLowVol += lvCharge;
+            otherHighVol += hvCharge;
+
             text0 = BASIC_CHARGE;
-            text1 = valBasicChargeLow[i].Charge;
-            otherLowVol += text1;
-            text2 = valBasicChargeHigh[i].Charge;
-            otherHighVol += text2;
-            netRateAddRow(text0, text1, text2, 5);
+            text1 = lvCharge;
+            text2 = hvCharge;
+            netRateAddRow(text0, getOutputTariff(text1, 3), getOutputTariff(text2, 3), 5);
+            
         }
     }
-
+    
+    
+    var fuelcharge = ValFuelCharge[sMonth - 1].Charge;
+    
+    otherLowVol += fuelcharge;
+    otherHighVol += fuelcharge;
+    
     text0 = FUEL_CHARGE;
-    text1 = ValFuelCharge[sMonth - 1].Charge;
-    otherLowVol += text1;
-    text2 = ValFuelCharge[sMonth - 1].Charge;
-    otherHighVol += text2;
-    netRateAddRow(text0, text1, text2, "");
-
+    text1 = fuelcharge;
+    text2 = fuelcharge;
+    netRateAddRow(text0, getOutputTariff(text1, 3), getOutputTariff(text2, 3), "");
+    
+    
     for (var i = 0; i < valSpecialFuelRebate.length; i++) {
+        
+        var rebate = valSpecialFuelRebate[i].Rebate;
+        
+        otherLowVol -= rebate;
+        otherHighVol -= rebate;
 
         text0 = FUEL_REBATE;
-        text1 = valSpecialFuelRebate[i].Rebate;
-        otherLowVol -= text1;
-        text2 = valSpecialFuelRebate[i].Rebate;
-        otherHighVol -= text2;
-        netRateAddRow(text0, text1, text2, "");
+        text1 = (rebate * -1);
+        text2 = (rebate * -1);
+        
+        netRateAddRow(text0, getOutputTariff(text1, 3), getOutputTariff(text2, 3), "");
 
     }
-
+    
+    
     for (var i = 0; i < valSpecialRebate.length; i++) {
 
+        var rebate = valSpecialRebate[i].Rebate
+        
+        otherLowVol -= rebate;
+        otherHighVol -= rebate;
+        
         text0 = SPECIAL_REBATE;
-        text1 = valSpecialRebate[i].Rebate;
-        otherLowVol -= text1;
-        text2 = valSpecialRebate[i].Rebate;
-        otherHighVol -= text2;
-        netRateAddRow(text0, text1, text2, "");
+        text1 = (rebate * -1);
+        text2 = (rebate * -1);
+        netRateAddRow(text0, getOutputTariff(text1, 3), getOutputTariff(text2, 3), "");
 
     }
-
+    
+    
     otherLowVol = otherLowVol.toFixed(3);
     otherHighVol = otherHighVol.toFixed(3);
-    netRateAddRow(NET_Rate, otherLowVol, otherHighVol, 3);
+    netRateAddRow(NET_Rate, getOutputTariff(otherLowVol, 3), getOutputTariff(otherHighVol, 3), 3);
 
 }
 
