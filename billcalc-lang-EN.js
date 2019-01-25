@@ -19,7 +19,7 @@ const COMPARE_INTRO_E = " unit(s) in a month, ";
 const COMPARE_BILLBY_MD = "Bill by Maximum Demand Tariff = ";
 const COMPARE_BILLBY_NR = "Bill by Non-Residential Tariff = ";
 const COMPARE_SAVING = "Savings under Maximum Demand Tariff = ";
-const COMPARE_EXTRA = "Savings under Maximum Demand Tariff = ";
+const COMPARE_EXTRA = "Savings under Non-Residential Tariff = ";
 
 const UNITS = "unit(s)";
 const DAYS = "day(s)";

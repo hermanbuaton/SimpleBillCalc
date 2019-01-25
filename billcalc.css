@@ -1,0 +1,401 @@
+input[type=password],
+input[type=number],
+input[type=text],
+input[type=file],
+input[type=month],
+select,
+textarea,
+.sp-peoplepicker-topLevel,
+.sp-peoplepicker-topLevelDisabled,
+.sp-peoplepicker-autoFillContainer,
+.ms-inputBox {
+    border: 1px solid #ababab;
+    background-color: #fff;
+    background-color: rgba( 255, 255, 255, 0.85);
+    color: #444;
+}
+
+.visible-xs {
+    display: none;
+}
+@media (max-width: 768px) {
+    .visible-xs {
+        display: inherit;
+    }
+}
+
+.net-rate-label {
+    width: auto;
+}
+
+.hke-billCalc-form {
+    width: 100%;
+    margin-top: 15px;
+    clear: both;
+}
+
+    .hke-billCalc-form .hke-billCalc-button {
+        margin-top: -6px;
+    }
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .hke-billCalc-form .hke-billCalc-button {
+        position: relative;
+        top: 28px;
+    }
+}
+
+.hke-billCalc-form-small {
+    width: calc(30% - 40px);
+    float: left;
+    clear: none;
+}
+
+    .hke-billCalc-form-small .hke-billCalc-button {
+        margin-top: 15px;
+    }
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .hke-billCalc-form-small .hke-billCalc-button {
+        position: relative;
+        top: 0px;
+    }
+}
+
+.hke-content-block:nth-child(1) {
+    width: 100%;
+    clear: both;
+}
+
+.hke-billCalc-result {
+    width: calc(70% - 40px);
+    margin-top: 15px;
+    float: right;
+    clear: none;
+}
+
+.hke-content-block:nth-child(2) {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hke-billCalc-form,
+    .hke-billCalc-form-small {
+        width: 100%;
+        margin-top: 0;
+        float: none;
+        clear: both;
+    }
+
+        .hke-billCalc-form .hke-billCalc-button,
+        .hke-billCalc-form-small .hke-billCalc-button {
+            margin-top: 10px;
+        }
+
+    .hke-content-block:nth-child(1) {
+        width: 100%;
+        clear: both;
+    }
+
+    .hke-billCalc-result {
+        width: 100%;
+        margin-top: 0;
+        float: none;
+        clear: both;
+    }
+
+    .hke-content-block:nth-child(2) {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .hke-billCalc-form {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .hke-billCalc-result {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+.hke-content table tr td:last-child {
+    text-align: right;
+}
+
+.hke-content table tr {
+    background-color: white;
+}
+
+/*
+    .hke-content table tr td {
+        padding: 8px 30px;
+        border-top: 0;
+        border-left: 0;
+        box-sizing: border-box;
+    }
+    */
+
+.hke-billCalc-form .hke-billCalc-input-group,
+.hke-billCalc-form .hke-billCalc-input-group-3,
+.hke-billCalc-form .hke-billCalc-input-group-4,
+.hke-billCalc-form .hke-billCalc-input-group-5 {
+    display: inline-block;
+    width: 100%;
+}
+
+.hke-billCalc-form .hke-billCalc-input-group {
+    max-width: 27.5%;
+}
+
+.hke-billCalc-form .hke-billCalc-input-group-3 {
+    max-width: 28.5%;
+}
+
+.hke-billCalc-form .hke-billCalc-input-group-4 {
+    max-width: 22.5%;
+}
+
+.hke-billCalc-form .hke-billCalc-input-group-5{
+    max-width: 21.5%;
+}
+
+.hke-billCalc-form-small .hke-billCalc-input-group,
+.hke-billCalc-form-small .hke-billCalc-input-group-3,
+.hke-billCalc-form-small .hke-billCalc-input-group-4,
+.hke-billCalc-form-small .hke-billCalc-input-group-5 {
+    display: inline-block;
+    width: 100% !important;
+}
+
+.hke-billCalc-form-small .hke-billCalc-input-group,
+.hke-billCalc-form-small .hke-billCalc-input-group-3,
+.hke-billCalc-form-small .hke-billCalc-input-group-4,
+.hke-billCalc-form-small .hke-billCalc-input-group-5 {
+    max-width: none;
+}
+
+@media (max-width: 768px) {
+
+    .hke-billCalc-form .hke-billCalc-input-group,
+    .hke-billCalc-form .hke-billCalc-input-group-3,
+    .hke-billCalc-form .hke-billCalc-input-group-4,
+    .hke-billCalc-form .hke-billCalc-input-group-5 {
+        display: block;
+        width: 100% !important;
+        max-width: none;
+    }
+
+}
+
+.hke-billCalc-form .hke-billCalc-input-group,
+.hke-billCalc-form .hke-billCalc-input-group-3,
+.hke-billCalc-form .hke-billCalc-input-group-4,
+.hke-billCalc-form .hke-billCalc-input-group-5 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .hke-billCalc-form .hke-billCalc-input-group,
+    .hke-billCalc-form .hke-billCalc-input-group-3,
+    .hke-billCalc-form .hke-billCalc-input-group-4,
+    .hke-billCalc-form .hke-billCalc-input-group-5 {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+.hke-billCalc-form .hke-billCalc-input-group label,
+.hke-billCalc-form .hke-billCalc-input-group-3 label,
+.hke-billCalc-form .hke-billCalc-input-group-4 label,
+.hke-billCalc-form .hke-billCalc-input-group-5 label {
+    display: block;
+    width: calc(100% - 30px);
+}
+
+.hke-billCalc-form .hke-billCalc-input-group input,
+.hke-billCalc-form .hke-billCalc-input-group-3 input,
+.hke-billCalc-form .hke-billCalc-input-group-4 input,
+.hke-billCalc-form .hke-billCalc-input-group-5 input, 
+.hke-billCalc-form .hke-billCalc-input-group select,
+.hke-billCalc-form .hke-billCalc-input-group-3 select,
+.hke-billCalc-form .hke-billCalc-input-group-4 select,
+.hke-billCalc-form .hke-billCalc-input-group-5 select {
+    display: block;
+    width: calc(100% - 30px);
+    padding: 8px 8px;
+    border-radius: 5px;
+}
+
+.hke-billCalc-toggle {
+    cursor: pointer;
+    max-width: 50%;
+    margin-left: 0px;
+    margin-right: 5px;
+    padding: 6px 10px;
+    background-color: transparent;
+    border: #DDDDDD solid 2px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .hke-billCalc-toggle {
+        width: 100%;
+    }
+}
+
+.hke-billCalc-toggle-selected {
+    background-color: transparent !important;
+    border: #88000D solid 2px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+/*
+    .hke-billCalc-toggle:before {
+        content: "\0007 \00A0 ";
+    }
+    .hke-billCalc-toggle-selected:before {
+        content: "\2714 \00A0 " !important;
+    }
+    */
+
+.hke-billCalc-button {
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0.6em 0.8em !important;
+    font-size: 1.1em;
+    line-height: 1.4;
+    text-decoration: none !important;
+}
+
+    .hke-billCalc-button,
+    .hke-billCalc-button:hover {
+        background-color: #88000D !important;
+        color: #FFFFFF !important;
+        border-radius: 5px;
+    }
+    .hke-billCalc-button:disabled {
+        cursor: default;
+        background-color: #E8E8E8 !important;
+        color: #000000 !important;
+        border-radius: 5px;
+        padding: 0.6em 1.4em !important;
+    }
+
+.hke-billCalc-button-action:after {
+    content: '';
+    display: inline-block;
+    margin-left: 0.4em;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 20px;
+    vertical-align: middle;
+    background: #fff url(/_layouts/15/hke/images/button-arrow.png) no-repeat 50% 50%;
+    background-size: 0.5em 0.8em;
+}
+.hke-billCalc-button-action:disabled:after {
+    width: 0;
+    height: 0;
+    margin: 0;
+    background: none;
+}
+
+.temp__Row th {
+    text-align: left !important;
+}
+
+.temp__Row td {
+    background-color: #FFFFFF;
+}
+
+
+
+.subHeader__Row td {
+    background-color: #AAAAAA;
+    font-weight: bold;
+}
+
+.subTotal__Row td {
+    background-color: #DDDDDD;
+    text-align: right;
+}
+
+.maxDemand .subTotal__Row td {
+    border-left: #DDDDDD !important;
+}
+
+.final__Row td {
+    background-color: #AAAAAA;
+    font-weight: bold;
+}
+
+.temp__Row td:last-child {
+    text-align: right;
+}
+
+.maxDemand td:nth-child(2n) {
+    text-align: right;
+}
+
+.first__Row td {
+    font-weight: bold;
+    text-align: center !important;
+}
+
+.resultTable {
+    border-radius: 12px;
+}
+
+    .resultTable tr:first-child td:first-child {
+        border-top-left-radius: 9px;
+    }
+
+    .resultTable tr:last-child td:first-child {
+        border-bottom-left-radius: 9px;
+    }
+
+    .resultTable tr:first-child td:last-child {
+        border-top-right-radius: 9px;
+    }
+
+    .resultTable tr:last-child td:last-child {
+        border-bottom-right-radius: 9px;
+    }
+
+.netRate {
+    border-radius: 12px;
+}
+
+    .netRate tr:first-child td:first-child {
+        border-top-left-radius: 9px;
+    }
+
+    .netRate tr:last-child td:first-child {
+        border-bottom-left-radius: 9px;
+    }
+
+    .netRate tr:first-child td:last-child {
+        border-top-right-radius: 9px;
+    }
+
+    .netRate tr:last-child td:last-child {
+        border-bottom-right-radius: 9px;
+    }
+
+    .netRate tr:first-child {
+        text-align: center;
+    }
+
+
+    #tariff-data-placeholder {
+        display: block;
+    }
